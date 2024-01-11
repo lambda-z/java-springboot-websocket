@@ -68,4 +68,15 @@ public class WebSocket {
         }
     }
 
+    /*
+    * 指定发送消息
+    * */
+    public void AppointSending(String userId, String message) {
+        try {
+            webSocketMap.get(userId).session.getBasicRemote().sendText(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
