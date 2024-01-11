@@ -1,4 +1,4 @@
-package com.example.javaspringbootwebsocket;
+package com.example.javaspringbootwebsocket.websocket;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocket {
     private Session session;
     private String userId;
-    private static ConcurrentHashMap<String, WebSocket> webSocketMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, WebSocket> webSocketMap = new ConcurrentHashMap<>();
 
     @OnOpen
     public void onOpen(Session session, @PathParam("userId") String userId) {
@@ -42,7 +42,7 @@ public class WebSocket {
 
         if (messageStr.indexOf("TOUSER") == 0) {
             String[] split = messageStr.split(";");
-            Stringp[] split1 = split[0].split(":");
+            String[] split1 = split[0].split(":");
             String[] split2 = split[1].split(":");
 
             String userId = split1[1];
@@ -63,7 +63,7 @@ public class WebSocket {
             try {
                 webSocketMap.get(key).session.getBasicRemote().sendText(message);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("【websocket消息】群发消息失败:" + e.getMessage());
             }
         }
     }
