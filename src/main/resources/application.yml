@@ -1,0 +1,11 @@
+server:
+  port: 7000
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+logging:
+  level:
+    com.java-springboot-websocket.mapper: trace
+    com.com.java-springboot-websocket: trace
