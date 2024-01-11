@@ -80,4 +80,13 @@ public class WebSocket {
         }
     }
 
+    /*
+    * 发生错误时调用
+    * */
+    @OnError
+    public void onError(Session session, Throwable error) {
+        log.error("【websocket消息】发生错误:" + error.getMessage());
+        error.printStackTrace();
+    }
+
 }
