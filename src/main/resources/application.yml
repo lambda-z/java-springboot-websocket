@@ -1,11 +1,17 @@
 server:
-  port: 7000
+  port: 8000
 
 spring:
   config:
     import: optional:file:.env[.properties]
 
+#logging:
+#  level:
+#    com.java-springboot-websocket.config: trace
+#    com.java-springboot-websocket.websocket: trace
+#    com.com.java-springboot-websocket: trace
 logging:
   level:
-    com.java-springboot-websocket.mapper: trace
-    com.com.java-springboot-websocket: trace
+    root: ERROR
+    org:
+      springframework: DEBUG

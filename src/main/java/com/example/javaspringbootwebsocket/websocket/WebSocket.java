@@ -9,20 +9,20 @@ import javax.websocket.server.PathParam;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Slf4j
+//@Slf4j
+@ServerEndpoint(value = "/ws/{userId}")
 @Component
-@ServerEndpoint("/websocket/{userId}")
 public class WebSocket {
     private Session session;
     private String userId;
     private static final ConcurrentHashMap<String, WebSocket> webSocketMap = new ConcurrentHashMap<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("userId") String userId) {
+    public void onOpen(Session session, @PathParam(value = "userId") String userId) {
         this.session = session;
         this.userId = userId;
         webSocketMap.put(userId, this);
-        log.info("【websocket消息】有新的连接，总数为:" + webSocketMap.size());
+//        log.info("【websocket消息】有新的连接，总数为:" + webSocketMap.size());
         /*
         * GroupSending is a method that sends a message to all users.
         * */
@@ -32,13 +32,13 @@ public class WebSocket {
     @OnClose
     public void onClose() {
         webSocketMap.remove(this.userId);
-        log.info("【websocket消息】连接断开，总数为:" + webSocketMap.size());
+//        log.info("【websocket消息】连接断开，总数为:" + webSocketMap.size());
         GroupSending("连接断开，总数为:" + webSocketMap.size());
     }
 
     @OnMessage
     public void onMessage(String messageStr) {
-        log.info("【websocket消息】收到客户端发来的消息:" + messageStr);
+//        log.info("【websocket消息】收到客户端发来的消息:" + messageStr);
 
         if (messageStr.indexOf("TOUSER") == 0) {
             String[] split = messageStr.split(";");
@@ -63,7 +63,7 @@ public class WebSocket {
             try {
                 webSocketMap.get(key).session.getBasicRemote().sendText(message);
             } catch (Exception e) {
-                log.error("【websocket消息】群发消息失败:" + e.getMessage());
+//                log.error("【websocket消息】群发消息失败:" + e.getMessage());
             }
         }
     }
@@ -85,7 +85,7 @@ public class WebSocket {
     * */
     @OnError
     public void onError(Session session, Throwable error) {
-        log.error("【websocket消息】发生错误:" + error.getMessage());
+//        log.error("【websocket消息】发生错误:" + error.getMessage());
         error.printStackTrace();
     }
 
