@@ -13,5 +13,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @ServerEndpoint("/websocket/{userId}")
 public class WebSocket {
+    private Session session;
+    private String userId;
+    private static ConcurrentHashMap<String, WebSocket> webSocketMap = new ConcurrentHashMap<>();
+
+    @OnOpen
+    public void onOpen(Session session, @PathParam("userId") String userId) {
+        this.session = session;
+        this.userId = userId;
+        webSocketMap.put(userId, this);
+        log.info("【websocket消息】有新的连接，总数为:" + webSocketMap.size());
+        GroupSending("有新的连接，总数为:" + webSocketMap.size());
+    }
 
 }
