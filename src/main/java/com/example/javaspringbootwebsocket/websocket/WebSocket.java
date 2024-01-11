@@ -26,4 +26,11 @@ public class WebSocket {
         GroupSending("有新的连接，总数为:" + webSocketMap.size());
     }
 
+    @OnClose
+    public void onClose() {
+        webSocketMap.remove(this.userId);
+        log.info("【websocket消息】连接断开，总数为:" + webSocketMap.size());
+        GroupSending("连接断开，总数为:" + webSocketMap.size());
+    }
+
 }
