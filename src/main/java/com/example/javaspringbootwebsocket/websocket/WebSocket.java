@@ -55,4 +55,17 @@ public class WebSocket {
         }
     }
 
+    /*
+    *  群发消息
+    * */
+    public void GroupSending(String message) {
+        for (String key : webSocketMap.keySet()) {
+            try {
+                webSocketMap.get(key).session.getBasicRemote().sendText(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
